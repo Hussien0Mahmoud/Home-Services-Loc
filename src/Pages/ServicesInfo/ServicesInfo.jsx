@@ -9,7 +9,7 @@ export default function ServicesInfo() {
   return (
     <>
     <ServiceDetails/>
-    <ApplyingForm/>
+    {/* <ApplyingForm/> */}
     <HowApply/>
     <ServicesSections/>
       </>
