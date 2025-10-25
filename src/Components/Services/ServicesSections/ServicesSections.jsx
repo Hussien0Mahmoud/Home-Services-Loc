@@ -1,7 +1,20 @@
 import { Link } from 'react-router-dom';
-import { services } from "../../../assets/data/services"
+import { useEffect, useState } from 'react';
+import { fetchServices } from "../../../assets/data/services"
 
 export default function ServicesSections() {
+  const [services, setServices] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+    fetchServices()
+      .then(data => { if (mounted) setServices(data) })
+      .catch(err => console.error('fetch services error', err))
+      .finally(() => { if (mounted) setLoading(false) })
+    return () => { mounted = false }
+  }, [])
+
   return (
     <section className="py-10 " id="services">
       <div className="container mx-auto px-4 ">
@@ -12,32 +25,32 @@ export default function ServicesSections() {
           كافة الخدمات
         </h2>
         <div className="flex flex-wrap justify-center gap-8 ">
+          {loading ? (
+            <div className="w-full text-center">جاري التحميل...</div>
+          ) : (
+            services.map((service) => (
+              <div key={service.id} className="bg-gray-100 rounded-lg shadow-md overflow-hidden w-full md:w-[30%]">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="p-6 text-center">
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">{service.title}</h3>
+                  <p className="text-gray-700 text-base">{service.description}</p>
+                </div>
+                <div className="text-center mb-5">
+                  <Link
+                    to={`/serviceInfo/${service.id}`}
+                    className="inline-block px-6 py-3 bg-yellow-400 text-white font-semibold text-lg rounded-md border border-yellow-400  hover:bg-gray-400 hover:border-gray-400 transition-all"
+                  >
+                    عرض الخدمة
+                  </Link>
+                </div>
 
-          {services.map((service) => (
-            <div key={service.id} className="bg-gray-100 rounded-lg shadow-md overflow-hidden w-full md:w-[30%]">
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-full h-64 object-cover"
-              />
-              <div className="p-6 text-center">
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">{service.title}</h3>
-                <p className="text-gray-700 text-base">{service.description}</p>
               </div>
-              {/* <div className="text-center mb-5">
-            <Link to="/serviceInfo" className="border-t-cyan-300"> عرض الخدمة </Link>
-          </div> */}
-              <div className="text-center mb-5">
-                <Link
-                  to={"/serviceInfo/"+ service.id}
-                  className="inline-block px-6 py-3 bg-yellow-400 text-white font-semibold text-lg rounded-md border border-yellow-400  hover:bg-gray-400 hover:border-gray-400 transition-all"
-                >
-                  عرض الخدمة
-                </Link>
-              </div>
-
-            </div>
-          ))}
+            ))
+          )}
 
         </div>
       </div>

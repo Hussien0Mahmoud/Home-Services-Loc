@@ -2,12 +2,12 @@
 import { Link } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 
-export default function Banner(props) {
+export default function SingleServiceBanner(props) {
   return (
 
     // <section className="relative z-0 bg-gray-900 h-96 flex justify-center items-center pointer-events-auto ">
-    <section className="bg-gray-900 h-96 align-center flex justify-center items-center  ">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className=" h-96 bg-singleService2 bg-right-top h-80 bg-black  align-center flex justify-center items-center  ">
+      <div className=" mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           className="relative -mx-4 overflow-hidden px-4 py-20 sm:-mx-6 sm:px-6 md:mx-0 md:rounded-5xl md:px-16 xl:px-24 xl:py-40">
           <div className="relative mx-auto grid max-w-2xl gap-x-32 gap-y-2 text-center xl:max-w-none">

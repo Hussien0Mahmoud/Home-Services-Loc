@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { services as storedServices } from "../../../assets/data/services";
+import { fetchServices } from "../../../assets/data/services";
 import { Link } from 'react-router-dom'
 
 import servicesImg from '../../../assets/Home/Services-Section/b8akServices.png'
@@ -9,9 +9,12 @@ import servicesImg from '../../../assets/Home/Services-Section/b8akServices.png'
 export default function CommonService() {
 
   const [services, setServices] = useState([])
-
   useEffect(() => {
-    setServices(storedServices)
+    let mounted = true
+    fetchServices()
+      .then(data => { if (mounted) setServices(data) })
+      .catch(err => console.error('fetchServices error', err))
+    return () => { mounted = false }
   }, [])
   return (
     <section className="flex flex-col lg:flex-row items-center text-center py-12 px-4 sm:px-12 md:px-24 bg-slate-100 gap-8">

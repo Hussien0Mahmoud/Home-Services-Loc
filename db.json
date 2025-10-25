@@ -1,0 +1,93 @@
+{
+  "services": [
+    {
+      "id": 1,
+      "image": "/src/assets/services/drain-cleaning.png",
+      "image2": "/src/assets/Home/Services-Section/plumbing-work.svg",
+      "title": "تسليك الصرف الصحي",
+      "description": "التعريف بخدمة تسليك الصرف الصحي وهي عبارة عن الخدمة الخاصة بفتح انسداد مواسير الصرف الصحي في…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 2,
+      "image": "/src/assets/services/repair-devices.jpg",
+      "image2": "/src/assets/Home/Services-Section/repair-devices.png",
+      "title": "تركيب و صيانة الاجهزة المنزلية",
+      "description": "التعريف بخدمة تركيب و صيانة الاجهزة المنزلية إن الهدف الأساسي من خدمة تركيب و صيانة الأجهزة…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 3,
+      "image": "/src/assets/services/house-made.jpg",
+      "image2": "/src/assets/Home/Services-Section/women-cleaning.png",
+      "title": "عاملة منزلية بالشهر",
+      "description": "عاملة منزلية بالشهر تم تدريبها بكفاءة عالية لتساعدكِ على القيام بأعمال البيت كما يجب، قد تعتبر…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 4,
+      "image": "/src/assets/services/plumbing.jpg",
+      "image2": "/src/assets/services/plumb.png",
+      "title": " السباكة",
+      "description": "يقوم السبّاك من تطبيق بيتك بسباكة المنزل على قدر عالٍ من المسؤولية والكفاءة. حيث أن مهام…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 5,
+      "image": "/src/assets/services/house-made-hour.jpg",
+      "image2": "/src/assets/Home/Services-Section/women-cleaning.png",
+      "title": " عاملات نظافة بالساعة",
+      "description": "عاملات نظافة نسائية مدربة تساعدك بالقيام بأعمال البيت بأفضل طريقة. نعلم تمامًا سيدتي أن مهام المنزل…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 6,
+      "image": "/src/assets/services/cleanliness.jpg",
+      "title": "النظافة ",
+      "description": "تشمل خدمة النظافة تنظيف كل من الأثاث وخزانات المياه وتلميع السيراميك بشكل احترافي لضمان راحة بالك. …",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 7,
+      "image": "/src/assets/services/anti-bug.jpg",
+      "title": "مكافحة الحشرات والطيور ",
+      "description": "التعريف بخدمة مكافحة الحشرات والطيور تشمل خدمة مكافحة الحشرات والطيور كل من الأدوات والأساليب التي يستخدمها…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 8,
+      "image": "/src/assets/services/air-conditioning.jpg",
+      "title": "التكييف ",
+      "description": "صيانة وتنظيف وحدات التكييف الداخلية والخارجية وتعبئة الفريون والتأكد من عمل المكيف بكفاءة عالية. تفاصيل أخرى…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 9,
+      "image": "/src/assets/services/electricity.jpg",
+      "title": " الكهرباء",
+      "description": "يقوم فني الكهرباء من تطبيق بيتك بتحديد ماهية المشكلة المتواجدة في المنزل أو المنشأة وبالتالي تقديم…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 10,
+      "image": "/src/assets/services/sterlisation.jpg",
+      "title": " التعقيم",
+      "description": "التعريف بخدمة التعقيم: تعد خدمة التعقيم أكثر الخدمات الضرورية والتي لا بد أن يحصل عليها أصحاب…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 11,
+      "image": "/src/assets/services/satelite.jpg",
+      "title": " ساتلايت ورسيفر",
+      "description": "التعريف بخدمة ستالايت ورسيفر: فني ساتلايت ورسيفر من تطبيق بيتك يقوم بتركيب الدش وتصليحه وبرمجة الرسيفر…",
+      "icon": "FaWrench"
+    },
+    {
+      "id": 12,
+      "image": "/src/assets/services/carpentry.jpg",
+      "title": "نجارة و تركيب أثاث ",
+      "description": "التعريف بخدمة نجارة وتركيب أثاث: تتضمن نجارة وتركيب أثاث المنزل أو المنشأة العديد من المهام التي…",
+      "icon": "FaWrench"
+    }
+  ]
+}

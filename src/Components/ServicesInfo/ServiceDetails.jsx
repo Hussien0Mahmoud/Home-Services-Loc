@@ -1,20 +1,36 @@
-import Banner from "../Banner/Banner";
-import { services as storedServices } from "../../assets/data/services";
+// import Banner from "../Banner/Banner";
+import { fetchServices } from "../../assets/data/services";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import SingleServiceBanner from "../Banner/SIngleServiceBanner";
 
 export default function ServiceDetails() {
   const param = useParams()
-  const services = storedServices
   const [service, setService] = useState({})
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setService(services.filter(service => service.id == param.id)[0])
-  }, [])
+    let mounted = true
+    async function load() {
+      try {
+        const all = await fetchServices()
+        if (!mounted) return
+        const found = all.find(s => String(s.id) === String(param.id))
+        setService(found || {})
+      } catch (err) {
+        console.error('load service error', err)
+      } finally {
+        if (mounted) setLoading(false)
+      }
+    }
+    load()
+    return () => { mounted = false }
+  }, [param.id])
 
   return (
     <>
-      <Banner title={service.title} subtitle="تفاصيل الخدمة" />
+      {/* <Banner title={service.title} subtitle="تفاصيل الخدمة" /> */}
+      <SingleServiceBanner title={service.title} subtitle="تفاصيل الخدمة" />
 
       <div className="bg-white text-black dark:bg-black dark:text-white">
         <div className="container mx-auto px-4 py-8">
@@ -22,7 +38,7 @@ export default function ServiceDetails() {
 
           <div className='w-full flex'>
             <h1 className="text-3xl font-bold mb-4 text-orange-800">
-            {service.title}
+            {loading ? 'جاري التحميل...' : service.title}
             </h1>
           </div>
           {/* <p className="mb-4 text-base">{service.description}</p> */}

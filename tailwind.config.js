@@ -9,6 +9,9 @@ export default {
         'footer-texture': "url('/another-image.png')",
         'worker1': "url('./src/assets/About/worker1.jpg')",
         'servicesHeaderBG': "url('./src/assets/services/services-header-bg.png')",
+        'singleService2': "url('/services/singleService2.png')",
+
+
       },
       fontFamily: {
         cairo: ['Cairo', 'sans-serif'],

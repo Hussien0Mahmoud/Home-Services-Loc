@@ -7,7 +7,8 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = window.innerHeight * 1; // 10% of viewport height
+      // use 10% of viewport height as the threshold for applying the fixed header
+      const scrollThreshold = window.innerHeight * 0.1;
       setIsScrolled(window.scrollY > scrollThreshold);
     };
 
