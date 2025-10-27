@@ -57,7 +57,7 @@ export default function ServiceDetails() {
           <div className="text-center mt-8">
             <button
               onClick={() => setIsFormOpen(true)}
-              className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-all duration-300"
+              className="bg-orange-800 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-all duration-300"
             >
               طلب الخدمة
             </button>

@@ -17,7 +17,7 @@ export default function CommonService() {
     return () => { mounted = false }
   }, [])
   return (
-    <section className="flex flex-col lg:flex-row items-center text-center py-12 px-4 sm:px-12 md:px-24 bg-slate-100 gap-8">
+    <section className="flex flex-col lg:flex-row items-center text-center py-20 px-4 sm:px-12 md:px-24 bg-slate-100 gap-8">
       {/* Right section - image container */}
       <div className="flex flex-col items-center text-center py-4 gap-4 lg:w-1/2 w-full">
         <h2 className="text-2xl sm:text-3xl font-normal text-yellow-500">خدماتنا</h2>

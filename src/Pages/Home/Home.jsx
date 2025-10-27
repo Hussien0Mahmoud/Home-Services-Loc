@@ -14,9 +14,9 @@ function Home() {
       <HomeBanner/>
       <CommonService/>  
       {/* <ServicesGroup/> */}
-      <HowApply/>
-      <Happiness/>
       <AboutWhyUs/>
+      <Happiness/>
+      <HowApply/>
     </div>
   )
 }

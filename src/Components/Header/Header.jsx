@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo/logoBlack.png";
+import { useAuth } from '../../context/AuthContext';
+import { FaUser, FaSignOutAlt } from 'react-icons/fa';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,6 +19,9 @@ function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <header
@@ -75,22 +80,47 @@ function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="sm:flex sm:gap-4">
-              <Link
-                className="rounded-md bg-gray-100 text-black text-opacity-50 text-xl px-5 py-2.5  font-medium border border-gray-400 hover:bg-gray-400  hover:text-white" 
-                to="/login"
-              >
-                تسجيل الدخول
-              </Link>
-              <div className="hidden sm:flex">
-                <Link
-                  className="rounded-md bg-gray-100 text-black text-opacity-50 text-xl px-5 py-2.5  font-medium border border-gray-400 hover:bg-gray-400  hover:text-white"
-                  to="/register"
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center gap-2 rounded-md bg-gray-100 text-black text-opacity-50 text-xl px-5 py-2.5 font-medium border border-gray-400 hover:bg-gray-400 hover:text-white"
                 >
-                  التسجيل
-                </Link>
+                  <FaUser className="text-lg" />
+                  {user.name}
+                </button>
+
+                {showUserMenu && (
+                  <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-50">
+                    <button
+                      onClick={() => { logout(); setShowUserMenu(false); }}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
+                    >
+                      <FaSignOutAlt className="text-lg" />
+                      تسجيل الخروج
+                    </button>
+                  </div>
+                )}
               </div>
-            </div>
+            ) : (
+              <div className="sm:flex sm:gap-4">
+                <Link
+                  className="rounded-md bg-gray-100 text-black text-opacity-50 text-xl px-5 py-2.5  font-medium border border-gray-400 hover:bg-gray-400  hover:text-white" 
+                  to="/login"
+                >
+                  تسجيل الدخول
+                </Link>
+                <div className="hidden sm:flex">
+                  <Link
+                    className="rounded-md bg-gray-100 text-black text-opacity-50 text-xl px-5 py-2.5  font-medium border border-gray-400 hover:bg-gray-400  hover:text-white"
+                    to="/register"
+                  >
+                    التسجيل
+                  </Link>
+                </div>
+              </div>
+            )}
+
             <div className="block md:hidden">
               <button className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
                 <svg
