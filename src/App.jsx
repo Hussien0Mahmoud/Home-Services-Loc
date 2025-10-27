@@ -10,6 +10,7 @@ import ContactUs from "./Pages/ContactUs/ContactUs";
 import Login from "./Pages/Login/Login";
 import ServicesInfo from "./Pages/ServicesInfo/ServicesInfo";
 import Registration from "./Pages/Registration/Registration";
+import GalleryPage from "./Pages/GalleryPage/GalleryPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/register" element={<Registration />} />
         <Route path="/serviceInfo/:id" element={<ServicesInfo />} />
         <Route path="/serviceInfo" element={<ServicesInfo />} />
+        <Route path="/galleryPage" element={<GalleryPage/>} />
         {/* <Route path="/services/:id" Component={Mohamed}/> */}
       </Routes>
       <Footer />

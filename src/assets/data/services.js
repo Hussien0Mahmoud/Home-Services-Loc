@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3000'; // أو استخدم VITE_API_URL لو عايز
+const API_BASE = 'http://localhost:3000';
 
 export async function fetchServices() {
   try {
@@ -8,7 +8,7 @@ export async function fetchServices() {
     return data;
   } catch (err) {
     console.error('fetchServices error:', err);
-    // ممكن ترجّع مصفوفة فاضية بدل services
+    
     return [];
   }
 }

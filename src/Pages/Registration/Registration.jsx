@@ -1,70 +1,190 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useAuth } from '../../context/AuthContext';
 
 export default function Registration() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [signupData, setSignupData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { register } = useAuth(); // requires AuthProvider in main.jsx
+  const navigate = useNavigate();
+
+  const handleSignup = async () => {
+    setError("");
+    // basic validation
+    if (!signupData.name || !signupData.email || !signupData.phone || !signupData.password) {
+      setError("جميع الحقول مطلوبة");
+      return;
+    }
+    if (signupData.password !== signupData.confirmPassword) {
+      setError("كلمتا المرور غير متطابقتين");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // If you have AuthContext.register implemented, call it:
+      if (typeof register === 'function') {
+        const result = await register({
+          name: signupData.name,
+          email: signupData.email,
+          phone: signupData.phone,
+          password: signupData.password
+        });
+        if (result.success) {
+          // registered + logged in by context
+          navigate('/');
+          return;
+        } else {
+          setError(result.error || "فشل التسجيل");
+          return;
+        }
+      }
+
+      // Fallback: direct call to json-server
+      const resp = await fetch('http://localhost:3000/users?email=' + encodeURIComponent(signupData.email));
+      const existing = await resp.json();
+      if (existing.length > 0) {
+        setError("البريد الإلكتروني مسجل بالفعل");
+        return;
+      }
+      const createResp = await fetch('http://localhost:3000/users', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: signupData.name,
+          email: signupData.email,
+          phone: signupData.phone,
+          password: signupData.password,
+          createdAt: new Date().toISOString()
+        })
+      });
+      if (createResp.ok) {
+        // optionally auto-login: store user without password in localStorage
+        const newUser = await createResp.json();
+        const { password, ...userWithoutPassword } = newUser;
+        localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+        navigate('/');
+      } else {
+        setError("فشل في إنشاء الحساب");
+      }
+    } catch (err) {
+      console.error("Registration error:", err);
+      setError("حدث خطأ أثناء التسجيل");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-     <>
-          <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-            <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-              <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-                
-                <div className="mt-12 flex flex-col items-center">
-                  <h1 className="text-2xl xl:text-3xl font-extrabold">تسجيل الدخول</h1>
-                  <div className="w-full flex-1 mt-8">
-    
-                    <div className="mx-auto max-w-xs">
-                      <input
-                        className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                        type="email"
-                        placeholder="البريد الالكترونى"
-                      />
-                      <input
-                        className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                        type="password"
-                        placeholder="الرقم السرى"
-                      />
-                      <input
-                        className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                        type="password"
-                        placeholder=" تأكيد الرقم السرى "
-                      />
-                      <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-                        <svg
-                          className="w-6 h-6 -ml-2"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                          <circle cx="8.5" cy="7" r="4" />
-                          <path d="M20 8v6M23 11h-6" />
-                        </svg>
-                        <span className="mr-5 "> تسجيل</span>
-                      </button>
-                      <p className="mt-6 text-xs text-gray-600 text-center">
-                        {' '}
-                        <Link to="#" className="border-b border-gray-500 border-dotted">
-                        خصوصية الموقع
-                        اوافق على جميع عناصر
-                        </Link>{' '}
-                       
-                      </p>
-                    </div>
-                  </div>
-                </div>
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6 relative overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+
+      <div className="relative z-10 w-full max-w-md">
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20">
+          {/* التابات */}
+          <div className="flex border-b">
+            <Link
+              to="/login"
+              className="flex-1 py-4 text-lg font-bold text-gray-500 hover:text-gray-700 hover:bg-gray-50 text-center"
+            >
+              تسجيل الدخول
+            </Link>
+            <button className="flex-1 py-4 text-lg font-bold text-yellow-600 border-b-4 border-yellow-500 bg-yellow-50">
+              إنشاء حساب
+            </button>
+          </div>
+
+          {/* المحتوى */}
+          <div className="p-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-black text-gray-900 mb-2">
+                انضم إلينا الآن!
+              </h2>
+              <p className="text-gray-600">أنشئ حسابك وابدأ رحلتك</p>
+            </div>
+
+            {error && (
+              <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 rounded-lg">
+                {error}
               </div>
-              <div className="flex-1 bg-indigo-100 text-center hidden lg:flex">
-                <div
-                  className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-                  style={{
-                    backgroundImage:
-                      "url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')",
-                  }}
-                ></div>
+            )}
+
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="الاسم الكامل"
+                value={signupData.name}
+                onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+              />
+              <input
+                type="email"
+                placeholder="البريد الإلكتروني"
+                value={signupData.email}
+                onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+              />
+              <input
+                type="tel"
+                placeholder="رقم الهاتف"
+                value={signupData.phone}
+                onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+              />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="كلمة المرور"
+                value={signupData.password}
+                onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+              />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="تأكيد كلمة المرور"
+                value={signupData.confirmPassword}
+                onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+              />
+
+              <label className="flex items-start gap-2 cursor-pointer text-sm">
+                <input type="checkbox" className="w-4 h-4 mt-1 rounded" />
+                <span className="text-gray-700">
+                  أوافق على الشروط والأحكام وسياسة الخصوصية
+                </span>
+              </label>
+
+              <button
+                onClick={handleSignup}
+                disabled={loading}
+                className="w-full py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-yellow-500/40 transition-all duration-300 hover:scale-105 disabled:opacity-60"
+              >
+                {loading ? 'جاري الإنشاء...' : 'إنشاء حساب'}
+              </button>
+
+              <div className="text-center mt-4 text-gray-700">
+                لديك حساب بالفعل؟{" "}
+                <Link
+                  to="/login"
+                  className="text-yellow-600 hover:text-yellow-700 font-semibold"
+                >
+                  تسجيل الدخول
+                </Link>
               </div>
             </div>
           </div>
-        </>
+        </div>
+      </div>
+    </div>
   )
 }

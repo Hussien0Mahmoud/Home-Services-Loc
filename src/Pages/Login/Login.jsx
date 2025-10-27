@@ -1,68 +1,153 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useAuth } from '../../context/AuthContext';
 
 export default function Login() {
-  return (
-    <>
-      <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-        <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-          <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-            
-            <div className="mt-12 flex flex-col items-center">
-              <h1 className="text-2xl xl:text-3xl font-extrabold">تسجيل الدخول</h1>
-              <div className="w-full flex-1 mt-8 bg-gray-100 p-6 sm:p-12">
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
 
-                <div className="mx-auto max-w-xs">
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setError("");
+    if (!loginData.email || !loginData.password) {
+      setError('جميع الحقول مطلوبة');
+      return;
+    }
+    setLoading(true);
+    try {
+      if (typeof login === 'function') {
+        const res = await login(loginData.email, loginData.password);
+        if (res.success) {
+          navigate('/');
+          return;
+        } else {
+          setError(res.error || 'البريد الإلكتروني أو كلمة المرور غير صحيحة');
+          return;
+        }
+      }
+
+      // fallback: query json-server directly
+      const resp = await fetch(`http://localhost:3000/users?email=${encodeURIComponent(loginData.email)}&password=${encodeURIComponent(loginData.password)}`);
+      const users = await resp.json();
+      if (users.length > 0) {
+        const user = users[0];
+        const { password, ...userWithoutPassword } = user;
+        localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+        navigate('/');
+      } else {
+        setError('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('حدث خطأ أثناء تسجيل الدخول');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-100  flex items-center justify-center p-6 relative overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+
+      <div className="relative z-10 w-full max-w-md">
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20">
+          {/* التابات */}
+          <div className="flex border-b">
+            <button className="flex-1 py-4 text-lg font-bold text-yellow-600 border-b-4 border-yellow-500 bg-yellow-50">
+              تسجيل الدخول
+            </button>
+            <Link
+              to="/register"
+              className="flex-1 py-4 text-lg font-bold text-gray-500 hover:text-gray-700 hover:bg-gray-50 text-center"
+            >
+              إنشاء حساب
+            </Link>
+          </div>
+
+          {/* المحتوى */}
+          <div className="p-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-black text-gray-900 mb-2">
+                مرحباً بعودتك!
+              </h2>
+              <p className="text-gray-600">قم بتسجيل الدخول للمتابعة</p>
+            </div>
+
+            {error && (
+              <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 rounded-lg">
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-5">
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">
+                  البريد الإلكتروني
+                </label>
+                <input
+                  type="email"
+                  value={loginData.email}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, email: e.target.value })
+                  }
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                  placeholder="example@email.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 font-bold mb-2">
+                  كلمة المرور
+                </label>
+                <div className="relative">
                   <input
-                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                    type="email"
-                    placeholder="البريد الالكترونى"
+                    type={showPassword ? "text" : "password"}
+                    value={loginData.password}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, password: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                    placeholder="••••••••"
                   />
-                  <input
-                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                    type="password"
-                    placeholder="الرقم السرى"
-                  />
-                  <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-                    <svg
-                      className="w-6 h-6 -ml-2"
-                      fill="none" 
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                      <circle cx="8.5" cy="7" r="4" />
-                      <path d="M20 8v6M23 11h-6" />
-                    </svg>
-                    <span className="mr-5 "> تسجيل</span>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    👁
                   </button>
-                  <p className="mt-6 text-xs text-gray-600 text-center">
-                    {' '}
-                    <Link to="#" className="border-b border-gray-500 border-dotted">
-                     اوافق على جميع عناصر
-                    </Link>{' '}
-                    <Link to="#" className="border-b border-gray-500 border-dotted">
-                      خصوصية الموقع
-                    </Link>
-                  </p>
                 </div>
+              </div>
+
+              <button
+                onClick={handleLogin}
+                disabled={loading}
+                className="w-full py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-yellow-500/40 transition-all duration-300 hover:scale-105 disabled:opacity-60"
+              >
+                {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+              </button>
+
+              <div className="text-center mt-4 text-gray-700">
+                ليس لديك حساب؟{" "}
+                <Link
+                  to="/register"
+                  className="text-yellow-600 hover:text-yellow-700 font-semibold"
+                >
+                  إنشاء حساب جديد
+                </Link>
               </div>
             </div>
           </div>
-  
-          {/* <div className="flex-1 bg-indigo-100 text-center hidden lg:flex">
-            <div
-              className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-              style={{
-                backgroundImage:
-                  "url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')",
-              }}
-            ></div>
-          </div> */}
         </div>
       </div>
-    </>
+    </div>
   );
 }
