@@ -140,19 +140,19 @@
 // }
 
 /////////////////////////////////////////
-export default function ServicesIntroduction() {
+export default function ServicesOval() {
   const services = [
-    { id: 1, name: 'تركيب و صيانة الأجهزة المنزلية', icon: '🔧' },
-    { id: 2, name: 'عاملة منزلية بالشهر', icon: '🧹' },
-    { id: 3, name: 'تسليك الصرف الصحي', icon: '🚰' },
+    { id: 1, name: 'تركيب و صيانة الأجهزة', icon: '🔧' },
+    { id: 2, name: 'عاملة منزلية', icon: '🧹' },
+    { id: 3, name: 'تسليك الصرف', icon: '🚰' },
     { id: 4, name: 'السباكة', icon: '🔩' },
-    { id: 5, name: 'عاملات نظافة بالساعة', icon: '✨' },
+    { id: 5, name: 'عاملات نظافة', icon: '✨' },
     { id: 6, name: 'النظافة', icon: '🧼' },
-    { id: 7, name: 'مكافحة الحشرات والطيور', icon: '🦟' },
+    { id: 7, name: 'مكافحة الحشرات', icon: '🦟' },
     { id: 8, name: 'التكييف', icon: '❄️' },
     { id: 9, name: 'الكهرباء', icon: '⚡' },
-    { id: 10, name: 'ساتلايت ورسيفر', icon: '📡' },
-    { id: 11, name: 'نجارة و تركيب أثاث', icon: '🪚' },
+    { id: 10, name: 'ساتلايت', icon: '📡' },
+    { id: 11, name: 'نجارة', icon: '🪚' },
     { id: 12, name: 'التعقيم', icon: '🧴' },
   ];
 
@@ -160,94 +160,106 @@ export default function ServicesIntroduction() {
     <section className="bg-gradient-to-b from-white to-gray-50 py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
-          {/* Services List */}
-          <div>
-            {/* Section Header */}
-            <div className="mb-10">
-              <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-                الخدمات التي <span className="text-yellow-500">نقدمها</span>
-              </h2>
-              <div className="w-24 h-1 bg-yellow-500 rounded-full mb-6"></div>
-              <p className="text-xl text-gray-600">
-                نوفر لك جميع الخدمات المنزلية في مكان واحد
-              </p>
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="h-px w-20 bg-gradient-to-r from-transparent via-yellow-500 to-yellow-500"></div>
+            <div className="flex gap-1.5">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
+            </div>
+            <div className="h-px w-20 bg-gradient-to-l from-transparent via-yellow-500 to-yellow-500"></div>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+            الخدمات التي <span className="text-yellow-500">نقدمها</span>
+          </h2>
+          <div className="w-32 h-1 bg-yellow-500 mx-auto rounded-full mb-6"></div>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            نوفر لك جميع الخدمات المنزلية بأعلى جودة واحترافية
+          </p>
+        </div>
+
+        {/* Oval Services Layout */}
+        <div className="max-w-7xl mx-auto">
+          <div className="relative">
+            
+            {/* Center Badge */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+              <div className="w-48 h-48 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 shadow-2xl flex items-center justify-center">
+                <div className="text-center text-white">
+                  <div className="text-5xl font-black mb-2">12</div>
+                  <div className="text-lg font-bold">خدمة</div>
+                  <div className="text-sm">متنوعة</div>
+                </div>
+              </div>
+              {/* Pulse Animation */}
+              <div className="absolute inset-0 rounded-full bg-yellow-400 animate-ping opacity-20"></div>
             </div>
 
-            {/* Services Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {services.map((service) => (
-                <div 
-                  key={service.id}
-                  className="group bg-white rounded-2xl p-5 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-r-4 border-yellow-500 cursor-pointer"
-                >
-                  <div className="flex items-center gap-4">
-                    {/* Icon */}
-                    <div className="flex-shrink-0 w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center text-2xl transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
-                      {service.icon}
-                    </div>
-                    
-                    {/* Service Name */}
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-yellow-600 transition-colors duration-300">
-                        {service.name}
-                      </h3>
+            {/* Services in Oval (Ellipse) */}
+            <div className="relative w-full mx-auto" style={{ height: '600px' }}>
+              {services.map((service, index) => {
+                const angle = (index * 360) / services.length;
+                const radiusX = 48; // horizontal radius (wider)
+                const radiusY = 35; // vertical radius (shorter)
+                const x = 50 + radiusX * Math.cos((angle - 90) * Math.PI / 180);
+                const y = 50 + radiusY * Math.sin((angle - 90) * Math.PI / 180);
+                
+                return (
+                  <div
+                    key={service.id}
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 group"
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                    }}
+                  >
+                    <div className="relative">
+                      {/* Service Card */}
+                      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 border-gray-100 hover:border-yellow-400 w-36 h-36 flex flex-col items-center justify-center cursor-pointer">
+                        {/* Icon */}
+                        <div className="text-5xl mb-2 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-500">
+                          {service.icon}
+                        </div>
+                        {/* Number Badge */}
+                        <div className="absolute -top-3 -right-3 w-9 h-9 bg-yellow-500 text-white rounded-full flex items-center justify-center font-bold shadow-lg">
+                          {service.id}
+                        </div>
+                        {/* Service Name */}
+                        <div className="text-center">
+                          <p className="text-sm font-bold text-gray-900 group-hover:text-yellow-600 transition-colors leading-tight">
+                            {service.name}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Connection Line to Center */}
+                      <div className="absolute top-1/2 left-1/2 w-0.5 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"
+                        style={{
+                          height: '120px',
+                          background: 'linear-gradient(to bottom, rgba(251, 191, 36, 0.5), transparent)',
+                          transform: `translate(-50%, 0) rotate(${angle + 90}deg)`,
+                          transformOrigin: 'top center',
+                        }}
+                      ></div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
-            {/* CTA Button */}
-            <div className="mt-10">
-              <button className="group relative px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(234,179,8,0.6)] transform">
-                <span className="relative z-10 flex items-center gap-3">
-                  <span>احجز خدمتك الآن</span>
-                  <svg className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-                <div className="absolute inset-0 bg-yellow-300 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-              </button>
-            </div>
           </div>
-
-          {/* Image Section */}
-          <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800" 
-                alt="Our Services" 
-                className="w-full h-full object-cover"
-              />
-              
-              {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-yellow-500/30 to-transparent"></div>
-            </div>
-
-            {/* Decorative Elements */}
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-yellow-400 rounded-3xl -z-10 opacity-20"></div>
-            <div className="absolute -top-6 -left-6 w-24 h-24 bg-yellow-500 rounded-3xl -z-10 opacity-20"></div>
-
-            {/* Floating Stats Card */}
-            <div className="absolute bottom-8 left-8 bg-white rounded-2xl p-6 shadow-2xl">
-              <div className="text-center">
-                <div className="text-4xl font-black text-yellow-500 mb-2">12+</div>
-                <div className="text-gray-700 font-semibold">خدمة متنوعة</div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
         {/* Bottom Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-5xl mx-auto">
           {[
             { number: '1000+', label: 'عميل راضي', icon: '😊' },
             { number: '500+', label: 'فني محترف', icon: '👷' },
             { number: '24/7', label: 'دعم فني', icon: '📞' },
-            { number: '12+', label: 'خدمة منزلية', icon: '🏠' }
+            { number: '12', label: 'خدمة منزلية', icon: '🏠' }
           ].map((stat, index) => (
             <div 
               key={index}
@@ -262,6 +274,19 @@ export default function ServicesIntroduction() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* CTA Button */}
+        <div className="text-center mt-16">
+          <button className="group relative px-10 py-5 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white font-bold text-lg rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(234,179,8,0.6)] transform">
+            <span className="relative z-10 flex items-center gap-3">
+              <span>احجز خدمتك الآن</span>
+              <svg className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+            <div className="absolute inset-0 bg-yellow-300 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+          </button>
         </div>
 
       </div>

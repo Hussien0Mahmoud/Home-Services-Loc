@@ -1,88 +1,93 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
 export default function ContactForm() {
   return (
-    <>
     <form action="https://fabform.io/f/xxxxx" method="post">
-  <section className="py-12 sm:py-24">
-    
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div classNameName="text-center py-14 ">
-      {/* <h3 className=""> تواصل معنا  </h3> */}
-      </div>
-      <div className="flex flex-wrap lg:flex-nowrap gap-6">
-        {/* <!-- Left Section --> */}
-        <div className="w-full lg:w-1/2 flex-1">
-          <div className="group w-full h-80 lg:h-full">
-            <div className="relative h-full">
-              <img
-                src="https://pagedone.io/asset/uploads/1696488602.png"
-                alt="ContactUs section"
-                className="w-full h-full object-cover lg:rounded-l-2xl rounded-2xl bg-blend-multiply bg-indigo-700"
-              />
-              <h1 className="font-manrope text-yello-500 text-2xl sm:text-4xl font-bold leading-10 absolute top-5 sm:top-11 right-5 sm:right-11 text-gray-700" >
-                تواصل معنا
-              </h1>
-              <div className="absolute bottom-0 w-full p-4 sm:p-6 lg:p-11">
-                <div className="bg-white text-center rounded-lg p-4 sm:p-6">
-                  <Link to="javascript:;" className="flex items-center  mb-4 sm:mb-6">
-                    <h5 className="text-black  text-centertext-sm sm:text-base font-normal leading-6 ml-3 sm:ml-5">
-                      01122233554
-                    </h5>
-                  </Link>
-                  <Link to="https://veilmail.io/irish-geoff" className="flex items-center mb-4 sm:mb-6">
-                    
-                    <h5 className="text-black text-sm sm:text-base font-normal leading-6 ml-3 sm:ml-5">
-                      home@B8ak.com
-                    </h5>
-                  </Link>
-                  <Link to="javascript:;" className="flex items-center">
-                    
-                    <h5 className="text-black text-sm sm:text-base font-normal leading-6 ml-3 sm:ml-5">
-                      مصر - القاهرة - مدينة نصر
-                    </h5>
-                  </Link>
+      <section className="py-12 sm:py-20">
+        {/* زودنا العرض الكلي */}
+        <div className="mx-auto max-w-8xl px-4 sm:px-8 lg:px-16">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl sm:text-4xl font-bold text-yellow-500">
+              تواصل معنا
+            </h1>
+          </div>
+
+          {/* توزيع العرض بين الصورة والفورم */}
+          <div className="flex flex-col lg:flex-row gap-12 items-stretch">
+            {/* القسم الأيسر (الصورة) */}
+            <div className="w-full lg:w-[45%] rounded-3xl overflow-hidden shadow-2xl relative flex bg-contact2BG bg-cover bg-center">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+
+              <div className="absolute bottom-0 w-full p-8">
+                <div className="bg-white/90 backdrop-blur-md text-center rounded-2xl p-8 shadow-lg border border-yellow-100">
+                  <div className="flex flex-col items-center gap-5 text-gray-800">
+                    <Link
+                      to="#"
+                      className="flex items-center gap-3 hover:text-yellow-500 transition"
+                    >
+                      <FaPhoneAlt className="text-yellow-500 text-lg" />
+                      <span className="font-medium text-lg">01122233554</span>
+                    </Link>
+                    <Link
+                      to="mailto:home@B8ak.com"
+                      className="flex items-center gap-3 hover:text-yellow-500 transition"
+                    >
+                      <FaEnvelope className="text-yellow-500 text-lg" />
+                      <span className="font-medium text-lg">home@B8ak.com</span>
+                    </Link>
+                    <Link
+                      to="#"
+                      className="flex items-center gap-3 hover:text-yellow-500 transition"
+                    >
+                      <FaMapMarkerAlt className="text-yellow-500 text-lg" />
+                      <span className="font-medium text-lg">
+                        مصر - القاهرة - مدينة نصر
+                      </span>
+                    </Link>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            {/* القسم الأيمن (الفورم) */}
+            <div className="w-full lg:w-[55%] bg-gray-50 p-12 rounded-3xl shadow-lg flex flex-col justify-center">
+              <h2 className="text-yellow-500 text-2xl sm:text-3xl font-semibold mb-10 text-center lg:text-right">
+                اكتب رسالتك هنا
+              </h2>
+
+              <div className="space-y-6">
+                <input
+                  type="text"
+                  className="w-full h-14 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg px-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all duration-200"
+                  placeholder="الاسم"
+                />
+                <input
+                  type="email"
+                  className="w-full h-14 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg px-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all duration-200"
+                  placeholder="البريد الإلكتروني"
+                />
+                <input
+                  type="tel"
+                  className="w-full h-14 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg px-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all duration-200"
+                  placeholder="رقم التليفون"
+                />
+                <textarea
+                  className="w-full h-40 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all duration-200 resize-none"
+                  placeholder="اكتب رسالتك"
+                ></textarea>
+                <button
+                  type="submit"
+                  className="w-full h-14 bg-yellow-500 hover:bg-yellow-400 text-white font-semibold rounded-2xl shadow-md transition-all duration-300"
+                >
+                  ارسل الآن
+                </button>
               </div>
             </div>
           </div>
         </div>
-
-        {/* <!-- Right Section --> */}
-        <div className="w-full lg:w-1/2 bg-gray-50 p-4 sm:p-6 lg:p-11 rounded-2xl lg:rounded-r-2xl">
-          <h2 className=" text-yellow-500 font-manrope text-2xl sm:text-4xl font-semibold leading-10 mb-6 sm:mb-11">
-            اكتب رسالتك هنا
-          </h2>
-          <input
-            type="text"
-            className="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-base sm:text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none px-4 mb-6 sm:mb-10"
-            placeholder="الاسم"
-          />
-          <input
-            type="email"
-            className="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-base sm:text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none px-4 mb-6 sm:mb-10"
-            placeholder="البريد الالكترونى"
-          />
-          <input
-            type="tel"
-            className="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-base sm:text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none px-4 mb-6 sm:mb-10 text-right"
-            placeholder="رقم التليفون"
-          />
-          <textarea
-            className="w-full h-24 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-base sm:text-lg font-normal leading-7 rounded-lg border border-gray-200 focus:outline-none px-4 mb-6 sm:mb-10 resize-none"
-            placeholder="اكتب رسالتك"
-          ></textarea>
-          <button
-            className="w-full h-12 text-white text-sm sm:text-base font-semibold leading-6 rounded-full transition-all duration-300 hover:bg-yellow-300 bg-yellow-500 shadow-sm">
-            ارسل الان
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-</form>
-
-    </>
-  )
+      </section>
+    </form>
+  );
 }

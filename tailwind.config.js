@@ -10,6 +10,10 @@ export default {
         'worker1': "url('./src/assets/About/worker1.jpg')",
         'servicesHeaderBG': "url('./src/assets/services/services-header-bg.png')",
         'singleService2': "url('/services/singleService2.png')",
+        // contact1 from puplbic folder
+        'contact1BG': "url('/contact/contact1.jpg')",
+        'contact2BG': "url('/contact/contact2.jpg')",
+
 
 
       },
