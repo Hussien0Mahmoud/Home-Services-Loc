@@ -32,12 +32,12 @@ export default function ServicesSections() {
               <div key={service.id} className="bg-gray-100 rounded-lg shadow-md overflow-hidden w-full md:w-[30%]">
                 <img
                   src={service.image}
-                  alt={service.title}
+                  alt={service.serviceName}
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-6 text-center">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-2">{service.title}</h3>
-                  <p className="text-gray-700 text-base">{service.description}</p>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">{service.serviceName}</h3>
+                  {/* <p className="text-gray-700 text-base">{service.descriptions}</p> */}
                 </div>
                 <div className="text-center mb-5">
                   <Link

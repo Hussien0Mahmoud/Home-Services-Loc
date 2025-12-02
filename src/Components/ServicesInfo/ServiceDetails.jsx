@@ -1,4 +1,3 @@
-import { fetchServices } from "../../assets/data/services";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SingleServiceBanner from "../Banner/SIngleServiceBanner";
@@ -14,12 +13,17 @@ export default function ServiceDetails() {
     let mounted = true;
     async function load() {
       try {
-        const all = await fetchServices();
-        if (!mounted) return;
-        const found = all.find((s) => String(s.id) === String(param.id));
-        setService(found || {});
+        const response = await fetch(`http://localhost:3000/services/${param.id}`);
+        if (!response.ok) throw new Error("Failed to fetch service");
+        const data = await response.json();
+        if (mounted) {
+          setService(data || {});
+        }
       } catch (err) {
         console.error("load service error", err);
+        if (mounted) {
+          setService({});
+        }
       } finally {
         if (mounted) setLoading(false);
       }
@@ -32,26 +36,39 @@ export default function ServiceDetails() {
 
   return (
     <>
-      <SingleServiceBanner title={service.title} subtitle="تفاصيل الخدمة" />
+      <SingleServiceBanner title={service.serviceName} subtitle="تفاصيل الخدمة" />
 
       <div className="bg-white text-black dark:bg-black dark:text-white">
         <div className="container mx-auto px-4 py-8">
-          <div className="w-full flex">
-            <h1 className="text-3xl font-bold mb-4 text-orange-800">
-              {loading ? "جاري التحميل..." : service.title}
+          <div className="w-full flex mb-4">
+            <h1 className="text-3xl font-bold text-orange-800">
+              {loading ? "جاري التحميل..." : service.serviceName}
             </h1>
           </div>
 
+          {service.price && (
+            <div className="mb-4">
+              <p className="text-xl font-semibold text-gray-700">
+                السعر: <span className="text-orange-800">{service.price} ريال</span>
+              </p>
+            </div>
+          )}
+
           <div className="pb-5">
-            <h2 className="font-bold text-2xl text-yellow-500 dark:text-orange-300">
+            <h2 className="font-bold text-2xl text-yellow-500 dark:text-orange-300 mb-4">
               التعريف بالخدمة
             </h2>
-            <br />
-            <ul>
-              <li className="list-disc">
-                <p className="mb-4 text-lg text-gray-700">{service.description}</p>
-              </li>
-            </ul>
+            <div className="space-y-3">
+              {service.descriptions && service.descriptions.length > 0 ? (
+                service.descriptions.map((desc, index) => (
+                  <p key={index} className="mb-2 text-lg text-gray-700">
+                    • {desc}
+                  </p>
+                ))
+              ) : (
+                <p className="text-gray-600">لا توجد تفاصيل متاحة</p>
+              )}
+            </div>
           </div>
 
           <div className="text-center mt-8">
