@@ -73,9 +73,15 @@ const Users = () => {
     setFormError(null);
   };
 
+  const getRoleValue = (label) => {
+    const labelMap = { "مستخدم": "user", "مسؤول": "admin", "عامل": "worker" };
+    return labelMap[label] || "";
+  };
+
   const filteredUsers = users.filter((user) => {
     const matchName = user.name?.toLowerCase().includes(searchName.toLowerCase());
-    const matchRole = filterRole ? user.role === filterRole : true;
+    const roleValue = getRoleValue(filterRole);
+    const matchRole = roleValue ? user.role === roleValue : true;
     return matchName && matchRole;
   });
 
