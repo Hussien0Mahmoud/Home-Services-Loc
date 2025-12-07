@@ -120,20 +120,37 @@ const Orders = () => {
   const columns = [
     { key: "id", label: "رقم الطلب" },
     {
-      key: "userName",
-      label: "المستخدم",
-      render: (row) => <span className="font-semibold text-orange-800">{row.userName}</span>,
+      key: "name",
+      label: "اسم العميل",
+      render: (row) => <span className="font-semibold text-orange-800">{row.name || "غير معروف"}</span>,
     },
     {
-      key: "workerName",
-      label: "العامل",
-      render: (row) => <span className="font-semibold text-orange-800">{row.workerName}</span>,
+      key: "phone",
+      label: "رقم الهاتف",
+      render: (row) => <span className="text-gray-700">{row.phone || "—"}</span>,
+    },
+    {
+      key: "email",
+      label: "البريد الإلكتروني",
+      render: (row) => <span className="text-gray-700 text-sm">{row.email || "—"}</span>,
     },
     {
       key: "serviceName",
       label: "الخدمة",
       render: (row) => (
         <span className="text-gray-700">{row.serviceName}</span>
+      ),
+    },
+    {
+      key: "description",
+      label: "الوصف",
+      render: (row) => (
+        <button
+          onClick={() => alert(row.description || "لا يوجد وصف")}
+          className="px-2 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 text-xs font-semibold"
+        >
+          عرض
+        </button>
       ),
     },
     {

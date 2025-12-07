@@ -14,6 +14,7 @@ const Workers = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedWorker, setSelectedWorker] = useState(null);
   const [formError, setFormError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -47,12 +48,14 @@ const Workers = () => {
     setSelectedWorker(null);
     setShowForm(true);
     setFormError(null);
+    setIsModalOpen(true);
   };
 
   const handleEditWorker = (worker) => {
     setSelectedWorker(worker);
     setShowForm(true);
     setFormError(null);
+    setIsModalOpen(true);
   };
 
   const handleDeleteWorker = async (workerId) => {
@@ -74,6 +77,7 @@ const Workers = () => {
   const handleFormSubmit = async () => {
     setShowForm(false);
     setSelectedWorker(null);
+    setIsModalOpen(false);
     await fetchData();
   };
 
@@ -81,6 +85,7 @@ const Workers = () => {
     setShowForm(false);
     setSelectedWorker(null);
     setFormError(null);
+    setIsModalOpen(false);
   };
 
   const getServiceName = (serviceId) => {
@@ -158,15 +163,28 @@ const Workers = () => {
         </div>
       )}
 
-      {showForm && (
-        <Card title={selectedWorker ? "تعديل عامل" : "إضافة عامل جديد"}>
-          <WorkerForm
-            worker={selectedWorker}
-            services={services}
-            onSubmit={handleFormSubmit}
-            onCancel={handleFormCancel}
-          />
-        </Card>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] w-full max-w-md sm:max-w-lg p-6 overflow-y-auto">
+            <button
+              onClick={handleFormCancel}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-xl z-10"
+            >
+              ✕
+            </button>
+            <h2 className="text-2xl font-bold text-orange-800 mb-6 text-right">
+              {selectedWorker ? "تعديل عامل" : "إضافة عامل جديد"}
+            </h2>
+            {showForm && (
+              <WorkerForm
+                worker={selectedWorker}
+                services={services}
+                onSubmit={handleFormSubmit}
+                onCancel={handleFormCancel}
+              />
+            )}
+          </div>
+        </div>
       )}
 
       <Card title="المرشحات">

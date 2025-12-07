@@ -49,7 +49,7 @@ export default function ServiceDetails() {
           {service.price && (
             <div className="mb-4">
               <p className="text-xl font-semibold text-gray-700">
-                السعر: <span className="text-orange-800">{service.price} ريال</span>
+                السعر: <span className="text-orange-800">{service.price} جنيه</span>
               </p>
             </div>
           )}
@@ -80,15 +80,15 @@ export default function ServiceDetails() {
             </button>
 
             {isFormOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl h-[75vh] w-[35vw] p-8 overflow-y-auto">
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl p-6 sm:p-8 overflow-y-auto">
                   <button
                     onClick={() => setIsFormOpen(false)}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-xl"
+                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-xl z-10"
                   >
                     ✕
                   </button>
-                  <ApplyingForm />
+                  <ApplyingForm serviceName={service.serviceName} onClose={() => setIsFormOpen(false)} />
                 </div>
               </div>
             )}

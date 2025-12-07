@@ -34,9 +34,9 @@ export default function CommonService() {
         {services.slice(0,4).map(service =>
           <div key={service.id} className="flex flex-col justify-center items-center bg-white p-5 border w-full sm:w-[48%] ">
             <div className="flex justify-center items-center w-32 h-32 rounded-full bg-gray-100 mb-5">
-              <img src={service.image2} className="w-12 h-12" alt={service.title} />
+              <img src={service.image2} className="w-12 h-12" alt={service.serviceName} />
             </div>
-            <h3 className="text-lg font-bold mb-4 text-gray-800">{service.title}</h3>
+            <h3 className="text-lg font-bold mb-4 text-gray-800">{service.serviceName}</h3>
             <Link to={"/serviceInfo/" + service.id} className="text-lg text-gray-600 font-medium hover:text-gray-800">
               عرض الخدمة ←
             </Link>

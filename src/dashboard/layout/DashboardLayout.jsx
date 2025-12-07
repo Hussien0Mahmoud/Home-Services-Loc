@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, Link } from "react-router-dom";
 
 const DashboardLayout = () => {
   const navLinks = [
@@ -36,7 +36,13 @@ const DashboardLayout = () => {
         </nav>
 
         <div className="border-t border-gray-200 pt-4 mt-auto">
-          <p className="text-xs text-gray-500 text-right">لوحة التحكم v1.0</p>
+          <Link
+            to="/"
+            className="w-full block px-4 py-3 rounded-lg font-medium transition text-center text-white bg-orange-800 hover:shadow-lg hover:shadow-yellow-500/40 hover:scale-105 transform mb-3"
+          >
+            الرئيسية
+          </Link>
+          {/* <p className="text-xs text-gray-500 text-right">لوحة التحكم v1.0</p> */}
         </div>
       </aside>
 

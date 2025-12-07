@@ -6,14 +6,10 @@ const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showForm, setShowForm] = useState(false);
   const [editingService, setEditingService] = useState(null);
-  const [editingDescriptionService, setEditingDescriptionService] =
-    useState(null);
-  const [editingDescriptionIndex, setEditingDescriptionIndex] = useState(null);
-  const [editingDescriptionValue, setEditingDescriptionValue] = useState("");
-  const [deletingId, setDeletingId] = useState(null);
-  const [updatingDescId, setUpdatingDescId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [viewingService, setViewingService] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchServices();
@@ -36,17 +32,17 @@ const Services = () => {
 
   const handleAddService = () => {
     setEditingService(null);
-    setShowForm(true);
+    setIsModalOpen(true);
   };
 
   const handleEditService = (service) => {
     setEditingService(service);
-    setShowForm(true);
+    setIsModalOpen(true);
   };
 
   const handleFormSubmit = async () => {
     await fetchServices();
-    setShowForm(false);
+    setIsModalOpen(false);
     setEditingService(null);
   };
 
@@ -59,7 +55,6 @@ const Services = () => {
       return;
     }
 
-    setDeletingId(serviceId);
     try {
       const response = await fetch(`http://localhost:3000/services/${serviceId}`, {
         method: "DELETE",
@@ -68,151 +63,14 @@ const Services = () => {
       await fetchServices();
     } catch (err) {
       alert(err.message);
-    } finally {
-      setDeletingId(null);
     }
   };
 
-  const handleEditDescription = (service, index) => {
-    setEditingDescriptionService(service);
-    setEditingDescriptionIndex(index);
-    setEditingDescriptionValue(service.descriptions[index] || "");
-  };
-
-  const handleSaveDescription = async () => {
-    if (!editingDescriptionValue.trim()) {
-      alert("الوصف لا يمكن أن يكون فارغاً");
-      return;
-    }
-
-    const service = editingDescriptionService;
-    const newDescriptions = [...service.descriptions];
-    newDescriptions[editingDescriptionIndex] = editingDescriptionValue.trim();
-
-    setUpdatingDescId(service.id);
-
-    try {
-      const response = await fetch(
-        `http://localhost:3000/services/${service.id}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            descriptions: newDescriptions,
-          }),
-        }
-      );
-      if (!response.ok) throw new Error("فشل في تحديث الوصف");
-      await fetchServices();
-      setEditingDescriptionService(null);
-      setEditingDescriptionIndex(null);
-      setEditingDescriptionValue("");
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setUpdatingDescId(null);
-    }
-  };
-
-  const handleAddNewDescription = (service) => {
-    setEditingDescriptionService(service);
-    setEditingDescriptionIndex(service.descriptions.length);
-    setEditingDescriptionValue("");
-  };
-
-  const handleSaveNewDescription = async () => {
-    if (!editingDescriptionValue.trim()) {
-      alert("الوصف لا يمكن أن يكون فارغاً");
-      return;
-    }
-
-    const service = editingDescriptionService;
-    const newDescriptions = [
-      ...service.descriptions,
-      editingDescriptionValue.trim(),
-    ];
-
-    setUpdatingDescId(service.id);
-
-    try {
-      const response = await fetch(
-        `http://localhost:3000/services/${service.id}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            descriptions: newDescriptions,
-          }),
-        }
-      );
-      if (!response.ok) throw new Error("فشل في إضافة الوصف");
-      await fetchServices();
-      setEditingDescriptionService(null);
-      setEditingDescriptionIndex(null);
-      setEditingDescriptionValue("");
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setUpdatingDescId(null);
-    }
-  };
-
-  const handleDeleteDescription = async (service, index) => {
-    if (service.descriptions.length <= 1) {
-      alert("يجب أن تحتوي الخدمة على وصف واحد على الأقل");
-      return;
-    }
-
-    const newDescriptions = service.descriptions.filter((_, i) => i !== index);
-
-    setUpdatingDescId(service.id);
-
-    try {
-      const response = await fetch(
-        `http://localhost:3000/services/${service.id}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            descriptions: newDescriptions,
-          }),
-        }
-      );
-      if (!response.ok) throw new Error("فشل في حذف الوصف");
-      await fetchServices();
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setUpdatingDescId(null);
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setEditingDescriptionService(null);
-    setEditingDescriptionIndex(null);
-    setEditingDescriptionValue("");
-  };
-
-  if (showForm) {
-    return (
-      <div className="space-y-6" dir="rtl">
-        <h1 className="text-3xl font-bold text-orange-800 text-right">الخدمات</h1>
-        <Card>
-          <h2 className="text-xl font-bold text-gray-800 mb-6 text-right">
-            {editingService ? "تعديل الخدمة" : "إضافة خدمة جديدة"}
-          </h2>
-          <ServiceForm
-            service={editingService}
-            onSubmit={handleFormSubmit}
-            onCancel={() => {
-              setShowForm(false);
-              setEditingService(null);
-            }}
-          />
-        </Card>
-      </div>
-    );
-  }
+  const filteredServices = services.filter(
+    (service) =>
+      service.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      service.price.toString().includes(searchTerm)
+  );
 
   return (
     <div className="space-y-6" dir="rtl">
@@ -226,9 +84,46 @@ const Services = () => {
         <h1 className="text-3xl font-bold text-orange-800">الخدمات</h1>
       </div>
 
+      <div className="bg-white rounded-lg shadow p-4">
+        <input
+          type="text"
+          placeholder="ابحث عن خدمة بالاسم أو السعر..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent transition text-right"
+        />
+      </div>
+
       {error && (
         <div className="bg-red-50 border-r-4 border-red-600 rounded-lg p-4 text-right">
           <p className="text-red-700">{error}</p>
+        </div>
+      )}
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] w-full max-w-md sm:max-w-lg md:max-w-2xl p-6 overflow-y-auto">
+            <button
+              onClick={() => {
+                setIsModalOpen(false);
+                setEditingService(null);
+              }}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-xl z-10"
+            >
+              ✕
+            </button>
+            <h2 className="text-2xl font-bold text-orange-800 mb-6 text-right">
+              {editingService ? "تعديل الخدمة" : "إضافة خدمة جديدة"}
+            </h2>
+            <ServiceForm
+              service={editingService}
+              onSubmit={handleFormSubmit}
+              onCancel={() => {
+                setIsModalOpen(false);
+                setEditingService(null);
+              }}
+            />
+          </div>
         </div>
       )}
 
@@ -247,88 +142,43 @@ const Services = () => {
         </Card>
       )}
 
-      {!loading && services.length > 0 && (
-        <div className="grid gap-6">
-          {services.map((service) => (
-            <Card key={service.id}>
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleDeleteService(service.id)}
-                    disabled={deletingId === service.id}
-                    className="px-3 py-2 bg-red-100 text-red-800 rounded font-semibold hover:bg-red-200 transition disabled:opacity-50 text-sm"
-                  >
-                    حذف
-                  </button>
-                  <button
-                    onClick={() => handleEditService(service)}
-                    className="px-3 py-2 bg-blue-100 text-blue-800 rounded font-semibold hover:bg-blue-200 transition text-sm"
-                  >
-                    تعديل
-                  </button>
-                </div>
-                <div className="text-right flex-1 px-4">
-                  <h3 className="text-lg font-bold text-orange-800 mb-1">
-                    {service.serviceName}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-3">
-                    السعر: {service.price} جنيه 
-                  </p>
-                </div>
+      {!loading && services.length > 0 && filteredServices.length === 0 && (
+        <Card>
+          <p className="text-center text-gray-600 py-8">لا توجد نتائج بحث</p>
+        </Card>
+      )}
+
+      {!loading && filteredServices.length > 0 && (
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {filteredServices.map((service) => (
+            <Card key={service.id} className="flex flex-col">
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-orange-800 mb-2 text-right">
+                  {service.serviceName}
+                </h3>
+                <p className="text-xl font-semibold text-gray-700 mb-4 text-right">
+                  {service.price} جنيه
+                </p>
               </div>
 
-              {/* Descriptions List */}
-              <div className="bg-gray-50 p-4 rounded-lg border-r-4 border-orange-800 mb-4">
-                <h4 className="font-semibold text-gray-700 text-right mb-3">
-                  الأوصاف:
-                </h4>
-                <div className="space-y-2">
-                  {service.descriptions && service.descriptions.length > 0 ? (
-                    service.descriptions.map((desc, index) => (
-                      <div
-                        key={index}
-                        className="bg-white p-3 rounded border-r-2 border-orange-600 flex justify-between items-start gap-2"
-                      >
-                        <div className="flex gap-1">
-                          <button
-                            onClick={() =>
-                              handleDeleteDescription(service, index)
-                            }
-                            disabled={updatingDescId === service.id}
-                            className="px-2 py-1 bg-red-100 text-red-800 rounded hover:bg-red-200 transition text-xs font-semibold disabled:opacity-50"
-                            title="حذف"
-                          >
-                            ✕
-                          </button>
-                          <button
-                            onClick={() =>
-                              handleEditDescription(service, index)
-                            }
-                            disabled={updatingDescId === service.id}
-                            className="px-2 py-1 bg-blue-100 text-blue-800 rounded hover:bg-blue-200 transition text-xs font-semibold disabled:opacity-50"
-                            title="تعديل"
-                          >
-                            ✎
-                          </button>
-                        </div>
-                        <p className="text-gray-700 text-right flex-1 text-sm">
-                          {desc}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-gray-500 text-sm text-right">
-                      لا توجد أوصاف
-                    </p>
-                  )}
-                </div>
-
+              <div className="flex gap-2 justify-end">
                 <button
-                  onClick={() => handleAddNewDescription(service)}
-                  disabled={updatingDescId === service.id}
-                  className="mt-3 px-3 py-1 bg-green-100 text-green-800 rounded font-semibold hover:bg-green-200 transition text-xs disabled:opacity-50"
+                  onClick={() => setViewingService(service)}
+                  className="px-3 py-2 bg-green-100 text-green-800 rounded font-semibold hover:bg-green-200 transition text-sm"
                 >
-                  + إضافة وصف جديد
+                  عرض
+                </button>
+                <button
+                  onClick={() => handleEditService(service)}
+                  className="px-3 py-2 bg-blue-100 text-blue-800 rounded font-semibold hover:bg-blue-200 transition text-sm"
+                >
+                  تعديل
+                </button>
+                <button
+                  onClick={() => handleDeleteService(service.id)}
+                  className="px-3 py-2 bg-red-100 text-red-800 rounded font-semibold hover:bg-red-200 transition text-sm"
+                >
+                  حذف
                 </button>
               </div>
             </Card>
@@ -336,53 +186,58 @@ const Services = () => {
         </div>
       )}
 
-      {/* Description Edit Modal */}
-      {editingDescriptionService && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          dir="rtl"
-        >
-          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 p-6">
-            <h3 className="text-xl font-bold text-orange-800 mb-2 text-right">
-              {editingDescriptionIndex === editingDescriptionService.descriptions.length
-                ? "إضافة وصف جديد"
-                : "تعديل الوصف"}
-            </h3>
-            <p className="text-gray-600 text-sm mb-4 text-right">
-              الخدمة: {editingDescriptionService.serviceName}
-            </p>
+      {/* View Service Modal */}
+      {viewingService && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto" dir="rtl">
+            <button
+              onClick={() => setViewingService(null)}
+              className="float-left text-gray-500 hover:text-gray-700 text-2xl"
+            >
+              ✕
+            </button>
+            <h2 className="text-2xl font-bold text-orange-800 mb-4 text-right">
+              {viewingService.serviceName}
+            </h2>
+            
+            <div className="space-y-4 text-right">
+              {viewingService.image && (
+                <div className="mb-4">
+                  <img
+                    src={viewingService.image}
+                    alt={viewingService.serviceName}
+                    className="w-full h-64 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+              )}
 
-            <textarea
-              value={editingDescriptionValue}
-              onChange={(e) => setEditingDescriptionValue(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent transition text-right bg-white"
-              rows="6"
-              placeholder="أدخل الوصف"
-            />
+              <div>
+                <p className="text-gray-600 font-semibold mb-1">السعر:</p>
+                <p className="text-xl text-gray-800">{viewingService.price} جنيه</p>
+              </div>
 
-            <div className="flex gap-3 justify-end mt-6">
-              <button
-                onClick={handleCancelEdit}
-                disabled={updatingDescId === editingDescriptionService.id}
-                className="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition disabled:opacity-50"
-              >
-                إلغاء
-              </button>
-              <button
-                onClick={
-                  editingDescriptionIndex ===
-                  editingDescriptionService.descriptions.length
-                    ? handleSaveNewDescription
-                    : handleSaveDescription
-                }
-                disabled={updatingDescId === editingDescriptionService.id}
-                className="px-6 py-2 bg-orange-800 text-white rounded-lg font-semibold hover:bg-orange-900 transition disabled:opacity-50"
-              >
-                {updatingDescId === editingDescriptionService.id
-                  ? "جاري الحفظ..."
-                  : "حفظ"}
-              </button>
+              <div>
+                <p className="text-gray-600 font-semibold mb-2">الأوصاف:</p>
+                <ul className="space-y-2">
+                  {viewingService.descriptions && viewingService.descriptions.length > 0 ? (
+                    viewingService.descriptions.map((desc, index) => (
+                      <li key={index} className="bg-gray-50 p-3 rounded border-r-4 border-orange-800 text-gray-700">
+                        • {desc}
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">لا توجد أوصاف</p>
+                  )}
+                </ul>
+              </div>
             </div>
+
+            <button
+              onClick={() => setViewingService(null)}
+              className="mt-6 w-full px-4 py-2 bg-orange-800 text-white rounded-lg font-semibold hover:bg-orange-900 transition"
+            >
+              إغلاق
+            </button>
           </div>
         </div>
       )}

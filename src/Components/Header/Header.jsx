@@ -24,11 +24,13 @@ function Header() {
   const { user, logout } = useAuth();
 
   return (
-    <header
-      className={`bg-gray-100 transition-all duration-300 ${
-        isScrolled ? "fixed top-0 left-0 w-full shadow-lg z-50" : ""
-      }`}
-    >
+    // <header
+    //   className={`bg-gray-100 transition-all duration-300 ${
+    //     isScrolled ? "fixed top-0 left-0 w-full shadow-lg z-50" : ""
+    //   }`}
+    // >
+    <header className="bg-gray-100 sticky top-0 z-50 shadow-lg">
+
       <div className="mx-auto max-w-screen-xl px-6 py-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="md:flex md:items-center md:gap-12">
@@ -92,6 +94,18 @@ function Header() {
 
                 {showUserMenu && (
                   <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-50">
+                    {user && user.role === 'admin' && (
+                      <>
+                        <Link
+                          to="/dashboard/users"
+                          onClick={() => setShowUserMenu(false)}
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
+                        >
+                          📊 لوحة التحكم
+                        </Link>
+                        <hr className="my-1" />
+                      </>
+                    )}
                     <button
                       onClick={() => { logout(); setShowUserMenu(false); }}
                       className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"

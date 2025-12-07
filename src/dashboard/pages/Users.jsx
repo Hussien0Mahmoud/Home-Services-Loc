@@ -13,6 +13,7 @@ const Users = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [formError, setFormError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -37,12 +38,14 @@ const Users = () => {
     setSelectedUser(null);
     setShowForm(true);
     setFormError(null);
+    setIsModalOpen(true);
   };
 
   const handleEditUser = (user) => {
     setSelectedUser(user);
     setShowForm(true);
     setFormError(null);
+    setIsModalOpen(true);
   };
 
   const handleDeleteUser = async (userId) => {
@@ -64,6 +67,7 @@ const Users = () => {
   const handleFormSubmit = async () => {
     setShowForm(false);
     setSelectedUser(null);
+    setIsModalOpen(false);
     await fetchUsers();
   };
 
@@ -71,6 +75,7 @@ const Users = () => {
     setShowForm(false);
     setSelectedUser(null);
     setFormError(null);
+    setIsModalOpen(false);
   };
 
   const getRoleValue = (label) => {
@@ -149,14 +154,27 @@ const Users = () => {
         </div>
       )}
 
-      {showForm && (
-        <Card title={selectedUser ? "تعديل مستخدم" : "إضافة مستخدم جديد"}>
-          <UserForm
-            user={selectedUser}
-            onSubmit={handleFormSubmit}
-            onCancel={handleFormCancel}
-          />
-        </Card>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] w-full max-w-md sm:max-w-lg p-6 overflow-y-auto">
+            <button
+              onClick={handleFormCancel}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-xl z-10"
+            >
+              ✕
+            </button>
+            <h2 className="text-2xl font-bold text-orange-800 mb-6 text-right">
+              {selectedUser ? "تعديل مستخدم" : "إضافة مستخدم جديد"}
+            </h2>
+            {showForm && (
+              <UserForm
+                user={selectedUser}
+                onSubmit={handleFormSubmit}
+                onCancel={handleFormCancel}
+              />
+            )}
+          </div>
+        </div>
       )}
 
       <Card title="المرشحات">

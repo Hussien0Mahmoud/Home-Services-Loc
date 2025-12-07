@@ -179,116 +179,237 @@ import worker5 from '../../assets/About/worker5.jpg'
 
 export default function ImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
-  // Mock images - استبدلهم بصورك الحقيقية
-  
   const images = [worker1, worker2, worker3, worker4, worker5];
 
-
-  // Auto play every 3 seconds
+  // Auto play every 4 seconds
   useEffect(() => {
+    if (!isAutoPlay) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
-
+    }, 4000);
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [images.length, isAutoPlay]);
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    setIsAutoPlay(false);
   };
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
+    setIsAutoPlay(false);
   };
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
+    setIsAutoPlay(false);
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+    setIsAutoPlay(false);
+  };
+
+  const handleTouchEnd = (e) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    if (touchStart - touchEnd > 50) {
+      goToNext();
+    } else if (touchEnd - touchStart > 50) {
+      goToPrevious();
+    }
+  };
+
+  const resumeAutoPlay = () => {
+    setIsAutoPlay(true);
   };
 
   return (
-    <div className="relative w-[90%] mx-auto rounded-2xl shadow-2xl">
-      
-      {/* Carousel Wrapper */}
-      <div className="relative h-80 md:h-[520px] overflow-hidden rounded-2xl bg-gray-100">
-        {images.map((img, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-              index === currentIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <img
-              src={img}
-              alt={`Slide ${index + 1}`}
-              className="absolute block w-full h-full object-contain md:object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-            />
+    <section className="relative py-12 md:py-20 w-full overflow-hidden bg-gradient-to-b from-white via-gray-50 to-gray-100" dir="rtl">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header with Advanced Typography */}
+        <div className="text-center mb-12 md:mb-16 animate-fade-in">
+          {/* Top Decorative Element */}
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6 flex-wrap justify-center">
+            <div className="h-px w-12 sm:w-20 bg-gradient-to-r from-transparent via-yellow-500 to-yellow-500 animate-pulse"></div>
+            <div className="flex gap-1 sm:gap-1.5">
+              <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-yellow-500 rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+              <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-yellow-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-yellow-300 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+            </div>
+            <div className="h-px w-12 sm:w-20 bg-gradient-to-l from-transparent via-yellow-500 to-yellow-500 animate-pulse"></div>
           </div>
-        ))}
+
+          {/* Title */}
+          <div className="relative inline-block">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-4 leading-tight">
+              معرض <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 animate-gradient">الصور</span>
+            </h2>
+            {/* Underline Animation */}
+            <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-600 rounded-full"></div>
+          </div>
+          
+          {/* Subtitle */}
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 mt-8 max-w-2xl mx-auto font-medium leading-relaxed">
+            لمحة عن فريق العمل المحترف وجودة الخدمات الممتازة التي نقدمها لعملائنا الكرام
+          </p>
+        </div>
+
+        {/* Main Carousel Container */}
+        <div className="relative group"
+          onMouseEnter={() => setIsAutoPlay(false)}
+          onMouseLeave={resumeAutoPlay}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Carousel Wrapper */}
+          <div className="relative h-64 sm:h-80 md:h-[500px] lg:h-[600px] overflow-hidden rounded-3xl shadow-2xl bg-gradient-to-br from-gray-200 to-gray-100">
+            {/* Image Container */}
+            {images.map((img, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                  index === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                }`}
+              >
+                <img
+                  src={img}
+                  alt={`صورة ${index + 1}`}
+                  className="absolute block w-full h-full object-cover"
+                />
+                
+                {/* Advanced Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent opacity-100 hover:opacity-50 transition-opacity duration-500"></div>
+                
+                {/* Top Accent Line */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+              </div>
+            ))}
+
+            {/* Advanced Navigation Buttons */}
+            {/* Previous Button */}
+            <button
+              type="button"
+              onClick={goToPrevious}
+              className="absolute top-1/2 start-0 z-30 flex items-center justify-center h-full px-3 sm:px-4 cursor-pointer group/btn focus:outline-none -translate-y-1/2 transform hover:scale-110 transition-all duration-300"
+              aria-label="صورة سابقة"
+            >
+              <span className="inline-flex items-center justify-center w-10 sm:w-12 md:w-14 h-10 sm:h-12 md:h-14 rounded-full bg-white/20 group-hover/btn:bg-yellow-400/80 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover/btn:scale-110">
+                <svg className="w-5 sm:w-6 md:w-7 h-5 sm:h-6 md:h-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
+                </svg>
+              </span>
+            </button>
+
+            {/* Next Button */}
+            <button
+              type="button"
+              onClick={goToNext}
+              className="absolute top-1/2 end-0 z-30 flex items-center justify-center h-full px-3 sm:px-4 cursor-pointer group/btn focus:outline-none -translate-y-1/2 transform hover:scale-110 transition-all duration-300"
+              aria-label="صورة التالية"
+            >
+              <span className="inline-flex items-center justify-center w-10 sm:w-12 md:w-14 h-10 sm:h-12 md:h-14 rounded-full bg-white/20 group-hover/btn:bg-yellow-400/80 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover/btn:scale-110">
+                <svg className="w-5 sm:w-6 md:w-7 h-5 sm:h-6 md:h-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
+                </svg>
+              </span>
+            </button>
+
+            {/* Advanced Indicators */}
+            <div className="absolute z-30 flex gap-2 sm:gap-3 -translate-x-1/2 bottom-4 sm:bottom-6 left-1/2">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => goToSlide(index)}
+                  className={`transition-all duration-500 rounded-full ring-2 ring-offset-2 ring-yellow-400 ${
+                    index === currentIndex 
+                      ? 'w-8 sm:w-10 h-3 sm:h-4 bg-gradient-to-r from-yellow-400 to-orange-500 ring-offset-slate-900' 
+                      : 'w-3 sm:w-4 h-3 sm:h-4 bg-white/50 hover:bg-white/80 ring-offset-slate-900'
+                  }`}
+                  aria-label={`اذهب إلى الصورة ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Image Counter */}
+            <div className="absolute top-4 sm:top-6 right-4 sm:right-6 z-30 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold shadow-lg backdrop-blur-sm">
+              <span>{currentIndex + 1}</span>
+              <span className="text-white/70 mx-1 sm:mx-2">/</span>
+              <span>{images.length}</span>
+            </div>
+          </div>
+
+          {/* Decorative Corner Elements */}
+          <div className="absolute -top-4 -right-4 w-20 h-20 border-t-4 border-r-4 border-yellow-400/30 rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="absolute -bottom-4 -left-4 w-20 h-20 border-b-4 border-l-4 border-orange-400/30 rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        </div>
+
+        {/* Info Cards Section */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-12 md:mt-16">
+          {[
+            { icon: '📸', title: 'جودة عالية', desc: 'صور احترافية عالية الجودة' },
+            { icon: '👥', title: 'فريق محترف', desc: 'عمال مدربون وذوو خبرة' },
+            { icon: '⭐', title: 'خدمات متميزة', desc: 'خدمات منزلية بأعلى معايير' }
+          ].map((item, idx) => (
+            <div key={idx} className="group relative p-6 sm:p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              {/* Gradient Overlay on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-400/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              {/* Content */}
+              <div className="relative z-10 text-center">
+                <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-500">{item.icon}</div>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                <p className="text-sm sm:text-base text-gray-600">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Indicators */}
-      <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            type="button"
-            onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex ? 'bg-yellow-500 w-8' : 'bg-gray-300'
-            }`}
-            aria-label={`Slide ${index + 1}`}
-          />
-        ))}
-      </div>
-
-      {/* Previous Button */}
-      <button
-        type="button"
-        onClick={goToPrevious}
-        className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-      >
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 transition">
-          <svg
-            className="w-4 h-4 text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 1 1 5l4 4"
-            />
-          </svg>
-        </span>
-      </button>
-
-      {/* Next Button */}
-      <button
-        type="button"
-        onClick={goToNext}
-        className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-      >
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 transition">
-          <svg
-            className="w-4 h-4 text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 6 10"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 9 4-4-4-4"
-            />
-          </svg>
-        </span>
-      </button>
-    </div>
+      {/* Custom CSS Animations */}
+      <style jsx>{`
+        @keyframes blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        @keyframes gradient {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out;
+        }
+      `}</style>
+    </section>
   );
 }
