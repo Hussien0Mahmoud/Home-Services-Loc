@@ -1,8 +1,8 @@
-import React from 'react'
 import AboutMission from '../../Components/AboutUs/AboutMission'
 // import AboutWhyUs from '../../Components/AboutUs/AboutWhyUs'
-import AboutGallary from '../../Components/AboutUs/AboutGallary'
+// import AboutGallary from '../../Components/AboutUs/AboutGallary'
 import AboutVision from '../../Components/AboutUs/AboutVision'
+import GallaryTest from '../../Components/AboutUs/GallaryTest'
 import Banner from '../../Components/Banner/Banner'
 import ServicesIntrodus from "../../Components/Services/ServicesIntrodus/ServicesIntrodus"
 
@@ -13,7 +13,8 @@ export default function AboutUs() {
       <AboutMission/>
       <AboutVision/>
       {/* <AboutWhyUs/> */}
-      <AboutGallary/>
+      <GallaryTest/>
+      {/* <AboutGallary/> */}
       <ServicesIntrodus/>
     </div>
   )

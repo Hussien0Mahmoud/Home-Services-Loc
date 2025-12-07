@@ -37,7 +37,7 @@ export default function Banner({ title }) {
         <div className="flex justify-center mt-8">
           <Link
             to="/"
-            className="flex items-center gap-2 bg-yellow-400 text-gray-900 font-bold py-3 px-7 rounded-full shadow-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300"
+            className="flex items-center gap-2 bg-yellow-600 text-gray-900 font-bold py-3 px-7 rounded-full shadow-lg hover:bg-yellow-500 hover:scale-105 transition-all duration-300"
           >
             <FaHome className="text-lg" />
             الرئيسية
