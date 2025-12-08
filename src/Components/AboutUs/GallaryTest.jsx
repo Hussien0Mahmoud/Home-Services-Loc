@@ -14,7 +14,6 @@ const images = [worker1, worker2, worker3, worker4, worker5];
 
 return ( <section className="py-24"> <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-```
     {/* Title */}
     <div className="pb-16">
       <h2 className="text-center text-gray-900 text-4xl font-bold pb-2.5">

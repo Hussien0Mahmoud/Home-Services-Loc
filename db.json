@@ -2,7 +2,7 @@
   "services": [
     {
       "id": "1",
-      "image": "/src/assets/services/drain-cleaning.png",
+      "image": "/services/drain-cleaning.png",
       "image2": "/src/assets/Home/Services-Section/plumbing-work.svg",
       "serviceName": "تسليك الصرف الصحي.",
       "descriptions": [
@@ -14,7 +14,7 @@
     },
     {
       "id": "2",
-      "image": "/src/assets/services/repair-devices.jpg",
+      "image": "/services/repair-devices.jpg",
       "image2": "/src/assets/Home/Services-Section/repair-devices.png",
       "serviceName": "تركيب و صيانة الاجهزة المنزلية",
       "descriptions": [
@@ -26,7 +26,7 @@
     },
     {
       "id": "3",
-      "image": "/src/assets/services/house-made.jpg",
+      "image": "/services/house-made.jpg",
       "image2": "/src/assets/Home/Services-Section/women-cleaning.png",
       "serviceName": "عاملة منزلية بالشهر",
       "descriptions": [
@@ -38,8 +38,8 @@
     },
     {
       "id": "4",
-      "image": "/src/assets/services/plumbing.jpg",
-      "image2": "/src/assets/services/plumb.png",
+      "image": "/services/plumbing.jpg",
+      "image2": "/services/plumb.png",
       "serviceName": "السباكة",
       "descriptions": [
         "سباك محترف يقوم بأعمال السباكة برسائة ودقة عالية",
@@ -50,7 +50,7 @@
     },
     {
       "id": "5",
-      "image": "/src/assets/services/house-made-hour.jpg",
+      "image": "/services/house-made-hour.jpg",
       "image2": "/src/assets/Home/Services-Section/women-cleaning.png",
       "serviceName": "عاملات نظافة بالساعة",
       "descriptions": [
@@ -62,7 +62,7 @@
     },
     {
       "id": "6",
-      "image": "/src/assets/services/cleanliness.jpg",
+      "image": "/services/cleanliness.jpg",
       "serviceName": "النظافة",
       "descriptions": [
         "تنظيف شامل للأثاث والأرضيات بمواد آمنة وفعالة",
@@ -73,7 +73,7 @@
     },
     {
       "id": "7",
-      "image": "/src/assets/services/anti-bug.jpg",
+      "image": "/services/anti-bug.jpg",
       "serviceName": "مكافحة الحشرات والطيور",
       "descriptions": [
         "استخدام أجهزة وأساليب حديثة لمكافحة الحشرات بفعالية",
@@ -106,7 +106,7 @@
     },
     {
       "id": "10",
-      "image": "/src/assets/services/sterlisation.jpg",
+      "image": "/services/sterlisation.jpg",
       "serviceName": "التعقيم",
       "descriptions": [
         "خدمة تعقيم شاملة تضمن سلامة البيئة من الجراثيم",
@@ -117,7 +117,7 @@
     },
     {
       "id": "11",
-      "image": "/src/assets/services/satelite.jpg",
+      "image": "/services/satelite.jpg",
       "serviceName": "ساتلايت ورسيفر",
       "descriptions": [
         "تركيب وصيانة أجهزة الساتلايت والرسيفر باحترافية",
@@ -128,7 +128,7 @@
     },
     {
       "id": "12",
-      "image": "/src/assets/services/carpentry.jpg",
+      "image": "/services/carpentry.jpg",
       "serviceName": "نجارة و تركيب أثاث",
       "descriptions": [
         "تركيب الأثاث الجديد بدقة وكفاءة عالية",
