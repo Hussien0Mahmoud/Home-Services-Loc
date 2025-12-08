@@ -3,7 +3,7 @@
     {
       "id": "1",
       "image": "/services/drain-cleaning.png",
-      "image2": "/src/assets/Home/Services-Section/plumbing-work.svg",
+      "image2": "/services/plumbing-work.svg",
       "serviceName": "تسليك الصرف الصحي.",
       "descriptions": [
         "الخدمة الخاصة بفتح انسداد مواسير الصرف الصحي باستخدام أحدث الأجهزة والتقنيات",
@@ -15,7 +15,7 @@
     {
       "id": "2",
       "image": "/services/repair-devices.jpg",
-      "image2": "/src/assets/Home/Services-Section/repair-devices.png",
+      "image2": "/services/repair-devices.png",
       "serviceName": "تركيب و صيانة الاجهزة المنزلية",
       "descriptions": [
         "تركيب وصيانة جميع الأجهزة المنزلية بمهارة عالية",
@@ -27,7 +27,7 @@
     {
       "id": "3",
       "image": "/services/house-made.jpg",
-      "image2": "/src/assets/Home/Services-Section/women-cleaning.png",
+      "image2": "/services/women-cleaning.png",
       "serviceName": "عاملة منزلية بالشهر",
       "descriptions": [
         "عاملة منزلية مدربة بكفاءة عالية لمساعدتك في أعمال المنزل",
