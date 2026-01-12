@@ -27,6 +27,10 @@ function App() {
         <Route path="services" element={<DashboardServices />} />
         <Route path="orders" element={<Orders />} />
       </Route>
+
+      {/* Auth Routes - No Header/Footer (Focused Pages) */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Registration />} />
       
       {/* Main Site Routes - With Header/Footer */}
       <Route
@@ -39,8 +43,6 @@ function App() {
               <Route path="/about" element={<AboutUs />} />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/services" element={<Services />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Registration />} />
               <Route path="/serviceInfo/:id" element={<ServicesInfo />} />
               <Route path="/serviceInfo" element={<ServicesInfo />} />
               <Route path="/galleryPage" element={<GalleryPage />} />

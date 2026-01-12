@@ -56,16 +56,19 @@ export default function Registration() {
         return;
       }
       const createResp = await fetch('http://localhost:3000/users', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          name: signupData.name,
-          email: signupData.email,
-          phone: signupData.phone,
-          password: signupData.password,
-          createdAt: new Date().toISOString()
-        })
-      });
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    id: crypto.randomUUID(), // ✅ string id
+    name: signupData.name,
+    email: signupData.email,
+    phone: signupData.phone,
+    password: signupData.password,
+    role: "user",
+    createdAt: new Date().toISOString()
+  })
+});
+
       if (createResp.ok) {
         // optionally auto-login: store user without password in localStorage
         const newUser = await createResp.json();
@@ -137,6 +140,7 @@ export default function Registration() {
               />
               <input
                 type="tel"
+                dir='rtl'
                 placeholder="رقم الهاتف"
                 value={signupData.phone}
                 onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })}
@@ -170,6 +174,13 @@ export default function Registration() {
                 className="w-full py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-yellow-500/40 transition-all duration-300 hover:scale-105 disabled:opacity-60"
               >
                 {loading ? 'جاري الإنشاء...' : 'إنشاء حساب'}
+              </button>
+
+              <button
+                onClick={() => navigate('/')}
+                className="w-full py-3 border-2 border-gray-300 text-gray-700 font-bold text-lg rounded-xl hover:bg-gray-100 transition-all duration-300"
+              >
+                إلغاء
               </button>
 
               <div className="text-center mt-4 text-gray-700">

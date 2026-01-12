@@ -38,42 +38,47 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const register = async (userData) => {
-    try {
-      // Check if email already exists
-      const checkResponse = await fetch(`http://localhost:3000/users?email=${userData.email}`);
-      const existingUsers = await checkResponse.json();
-      
-      if (existingUsers.length > 0) {
-        return { success: false, error: 'البريد الإلكتروني مسجل بالفعل' };
-      }
+const register = async (userData) => {
+  try {
+    const checkResponse = await fetch(
+      `http://localhost:3000/users?email=${encodeURIComponent(userData.email)}`
+    );
+    const existingUsers = await checkResponse.json();
 
-      const response = await fetch('http://localhost:3000/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...userData,
-          id: Date.now(), // Simple way to generate unique id
-          createdAt: new Date().toISOString()
-        }),
-      });
-
-      if (response.ok) {
-        const newUser = await response.json();
-        const { password, ...userWithoutPassword } = newUser;
-        setUser(userWithoutPassword);
-        localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-        return { success: true };
-      } else {
-        return { success: false, error: 'فشل في إنشاء الحساب' };
-      }
-    } catch (error) {
-      console.error('Registration error:', error);
-      return { success: false, error: 'حدث خطأ أثناء إنشاء الحساب' };
+    if (existingUsers.length > 0) {
+      return { success: false, error: 'البريد الإلكتروني مسجل بالفعل' };
     }
-  };
+
+    const response = await fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...userData,
+        id: crypto.randomUUID(), // 🔥 الحل
+        role: "user",
+        createdAt: new Date().toISOString(),
+      }),
+    });
+
+    if (!response.ok) {
+      return { success: false, error: 'فشل في إنشاء الحساب' };
+    }
+
+    const newUser = await response.json();
+    const { password, ...userWithoutPassword } = newUser;
+
+    setUser(userWithoutPassword);
+    localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+
+    return { success: true };
+  } catch (error) {
+    console.error('Registration error:', error);
+    return { success: false, error: 'حدث خطأ أثناء إنشاء الحساب' };
+  }
+};
+
 
   const logout = () => {
     setUser(null);

@@ -6,3 +6,42 @@
 body{
     @apply font-cairo
 }
+
+/* Dashboard select dropdown styling - Remove blue color */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+select option {
+    background-color: white;
+    color: #333;
+    padding: 8px 12px;
+    background-image: none;
+}
+
+select option:hover {
+    background: #b45309 !important;
+    background-color: #b45309 !important;
+    color: white !important;
+    outline: none;
+}
+
+select option:focus {
+    background: #b45309 !important;
+    background-color: #b45309 !important;
+    color: white !important;
+}
+
+select option:checked {
+    background: linear-gradient(#92400e, #92400e);
+    background-color: #92400e !important;
+    color: white !important;
+}
+
+select option:checked:hover {
+    background: #b45309 !important;
+    background-color: #b45309 !important;
+    color: white !important;
+}

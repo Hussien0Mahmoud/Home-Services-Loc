@@ -135,6 +135,13 @@ export default function Login() {
                 {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
               </button>
 
+              <button
+                onClick={() => navigate('/')}
+                className="w-full py-3 border-2 border-gray-300 text-gray-700 font-bold text-lg rounded-xl hover:bg-gray-100 transition-all duration-300"
+              >
+                إلغاء
+              </button>
+
               <div className="text-center mt-4 text-gray-700">
                 ليس لديك حساب؟{" "}
                 <Link

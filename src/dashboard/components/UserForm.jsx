@@ -54,11 +54,13 @@ const UserForm = ({ user, onSubmit, onCancel }) => {
         : "http://localhost:3000/users";
 
       const payload = {
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        phone: formData.phone.trim(),
-        role: formData.role,
-      };
+  id: user ? user.id : crypto.randomUUID(), // 🔥 الحل
+  name: formData.name.trim(),
+  email: formData.email.trim(),
+  phone: formData.phone.trim(),
+  role: formData.role,
+};
+
 
       // Only include password for new users or if password was changed
       if (!user || (formData.password && formData.password !== user.password)) {
