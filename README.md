@@ -142,6 +142,10 @@ This will start the JSON Server API on `http://localhost:3000`
 
 **Note:** Make sure both servers are running for the application to work properly.
 
+**Note2:** To see Dashboard login as admin by
+user-name: hussien@mail.com 
+password: 123456
+
 ---
 
 ## 📊 Database (db.json)
