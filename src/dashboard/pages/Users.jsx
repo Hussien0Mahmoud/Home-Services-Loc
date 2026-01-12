@@ -138,14 +138,14 @@ const Users = () => {
 
   return (
     <div className="space-y-6" dir="rtl">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between items-start sm:items-center">
         <button
           onClick={handleAddUser}
-          className="px-6 py-2 bg-orange-800 text-white rounded-lg font-semibold hover:bg-orange-900 transition"
+          className="px-4 sm:px-6 py-2 bg-orange-800 text-white text-sm sm:text-base rounded-lg font-semibold hover:bg-orange-900 transition w-full sm:w-auto"
         >
           + إضافة مستخدم جديد
         </button>
-        <h1 className="text-3xl font-bold text-orange-800">المستخدمون</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-orange-800">المستخدمون</h1>
       </div>
 
       {formError && (
@@ -156,14 +156,14 @@ const Users = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
-          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] w-full max-w-md sm:max-w-lg p-6 overflow-y-auto">
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-h-[90vh] w-full max-w-md sm:max-w-lg p-4 sm:p-6 overflow-y-auto">
             <button
               onClick={handleFormCancel}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-xl z-10"
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-lg sm:text-xl z-10"
             >
               ✕
             </button>
-            <h2 className="text-2xl font-bold text-orange-800 mb-6 text-right">
+            <h2 className="text-xl sm:text-2xl font-bold text-orange-800 mb-4 sm:mb-6 text-right">
               {selectedUser ? "تعديل مستخدم" : "إضافة مستخدم جديد"}
             </h2>
             {showForm && (
@@ -178,7 +178,7 @@ const Users = () => {
       )}
 
       <Card title="المرشحات">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <Filter
             label="الاسم"
             type="text"
